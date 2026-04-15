@@ -69,7 +69,7 @@ export default function Matrizes() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Matrizes (Vacas)</h1>
+          <h1 className="text-2xl font-bold text-white">Matrizes (Vacas)</h1>
           <p className="text-sm text-gray-500 mt-0.5">{matrizes.length} registros</p>
         </div>
         <Button onClick={openNew}>
@@ -107,7 +107,7 @@ export default function Matrizes() {
         <Card className="overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50/80 hover:bg-gray-50/80">
+              <TableRow className="bg-white/[0.02] hover:bg-white/[0.02]">
                 <TableHead>Número</TableHead>
                 <TableHead>Nome</TableHead>
                 <TableHead>Raça</TableHead>
@@ -119,10 +119,10 @@ export default function Matrizes() {
             <TableBody>
               {filtered.map(m => (
                 <TableRow key={m.id}>
-                  <TableCell className="font-semibold text-gray-900">#{m.numero}</TableCell>
-                  <TableCell>{m.nome || <span className="text-gray-300">—</span>}</TableCell>
-                  <TableCell>{m.raca || <span className="text-gray-300">—</span>}</TableCell>
-                  <TableCell className="tabular-nums">{m.data_nascimento || <span className="text-gray-300">—</span>}</TableCell>
+                  <TableCell className="font-semibold text-white">#{m.numero}</TableCell>
+                  <TableCell>{m.nome || <span className="text-gray-600">—</span>}</TableCell>
+                  <TableCell>{m.raca || <span className="text-gray-600">—</span>}</TableCell>
+                  <TableCell className="tabular-nums">{m.data_nascimento || <span className="text-gray-600">—</span>}</TableCell>
                   <TableCell><StatusBadge value={m.status} /></TableCell>
                   <TableCell>
                     <DropdownMenu>

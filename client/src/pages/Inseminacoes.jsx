@@ -87,7 +87,7 @@ export default function Inseminacoes() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Inseminações</h1>
+          <h1 className="text-2xl font-bold text-white">Inseminações</h1>
           <p className="text-sm text-gray-500 mt-0.5">{inseminacoes.length} registros</p>
         </div>
         <Button onClick={openNew}>
@@ -109,7 +109,7 @@ export default function Inseminacoes() {
         <Card className="overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50/80 hover:bg-gray-50/80">
+              <TableRow className="bg-white/[0.02] hover:bg-white/[0.02]">
                 <TableHead>Matriz</TableHead>
                 <TableHead>Data</TableHead>
                 <TableHead>Tipo</TableHead>
@@ -121,12 +121,12 @@ export default function Inseminacoes() {
             <TableBody>
               {inseminacoes.map(ins => (
                 <TableRow key={ins.id}>
-                  <TableCell className="font-semibold text-gray-900">
-                    #{ins.matriz_numero} {ins.matriz_nome && <span className="text-gray-400 font-normal">({ins.matriz_nome})</span>}
+                  <TableCell className="font-semibold text-white">
+                    #{ins.matriz_numero} {ins.matriz_nome && <span className="text-gray-500 font-normal">({ins.matriz_nome})</span>}
                   </TableCell>
                   <TableCell className="tabular-nums">{ins.data}</TableCell>
                   <TableCell><StatusBadge value={ins.tipo} /></TableCell>
-                  <TableCell>{ins.touro_semen || <span className="text-gray-300">—</span>}</TableCell>
+                  <TableCell>{ins.touro_semen || <span className="text-gray-600">—</span>}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <StatusBadge value={ins.resultado} />

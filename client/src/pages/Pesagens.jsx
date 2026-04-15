@@ -60,7 +60,7 @@ export default function Pesagens() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Pesagens</h1>
+          <h1 className="text-2xl font-bold text-white">Pesagens</h1>
           <p className="text-sm text-gray-500 mt-0.5">{pesagens.length} registros</p>
         </div>
         <Button onClick={openNew}>
@@ -82,7 +82,7 @@ export default function Pesagens() {
         <Card className="overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50/80 hover:bg-gray-50/80">
+              <TableRow className="bg-white/[0.02] hover:bg-white/[0.02]">
                 <TableHead>Bezerro</TableHead>
                 <TableHead>Data</TableHead>
                 <TableHead>Peso (kg)</TableHead>
@@ -93,10 +93,10 @@ export default function Pesagens() {
             <TableBody>
               {pesagens.map(p => (
                 <TableRow key={p.id}>
-                  <TableCell className="font-semibold text-gray-900">#{p.bezerro_numero}</TableCell>
+                  <TableCell className="font-semibold text-white">#{p.bezerro_numero}</TableCell>
                   <TableCell className="tabular-nums">{p.data}</TableCell>
-                  <TableCell className="font-bold text-gray-900 tabular-nums">{p.peso} kg</TableCell>
-                  <TableCell className="text-gray-500 max-w-xs truncate">{p.observacoes || <span className="text-gray-300">—</span>}</TableCell>
+                  <TableCell className="font-bold text-emerald-400 tabular-nums">{p.peso} kg</TableCell>
+                  <TableCell className="text-gray-400 max-w-xs truncate">{p.observacoes || <span className="text-gray-600">—</span>}</TableCell>
                   <TableCell>
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400 hover:text-red-600 hover:bg-red-50" onClick={() => setDeleteTarget(p)}>
                       <Trash2 size={15} />

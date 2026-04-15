@@ -103,7 +103,7 @@ export default function Bezerros() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Bezerros</h1>
+          <h1 className="text-2xl font-bold text-white">Bezerros</h1>
           <p className="text-sm text-gray-500 mt-0.5">{bezerros.length} registros</p>
         </div>
         <Button onClick={openNew}>
@@ -139,7 +139,7 @@ export default function Bezerros() {
         <Card className="overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50/80 hover:bg-gray-50/80">
+              <TableRow className="bg-white/[0.02] hover:bg-white/[0.02]">
                 <TableHead>Número</TableHead>
                 <TableHead>Mãe</TableHead>
                 <TableHead>Nascimento</TableHead>
@@ -153,12 +153,12 @@ export default function Bezerros() {
             <TableBody>
               {filtered.map(b => (
                 <TableRow key={b.id}>
-                  <TableCell className="font-semibold text-gray-900">#{b.numero}</TableCell>
-                  <TableCell>#{b.matriz_numero} {b.matriz_nome && <span className="text-gray-400">({b.matriz_nome})</span>}</TableCell>
+                  <TableCell className="font-semibold text-white">#{b.numero}</TableCell>
+                  <TableCell>#{b.matriz_numero} {b.matriz_nome && <span className="text-gray-500">({b.matriz_nome})</span>}</TableCell>
                   <TableCell className="tabular-nums">{b.data_nascimento}</TableCell>
                   <TableCell><StatusBadge value={b.sexo} /></TableCell>
                   <TableCell><StatusBadge value={b.tipo_concepcao} /></TableCell>
-                  <TableCell className="tabular-nums font-medium">{b.peso_atual ? `${b.peso_atual} kg` : <span className="text-gray-300">—</span>}</TableCell>
+                  <TableCell className="tabular-nums font-medium">{b.peso_atual ? `${b.peso_atual} kg` : <span className="text-gray-600">—</span>}</TableCell>
                   <TableCell><StatusBadge value={b.destino} /></TableCell>
                   <TableCell>
                     <DropdownMenu>
@@ -297,9 +297,9 @@ export default function Bezerros() {
             <DialogDescription>Escolha o novo destino do bezerro.</DialogDescription>
           </DialogHeader>
           <form onSubmit={saveDestino} className="space-y-4">
-            <Card className="bg-gray-50 border-gray-200">
-              <CardContent className="p-4 text-sm text-gray-600">
-                <p className="font-medium text-gray-700">Fluxo do bezerro:</p>
+            <Card className="bg-white/[0.03] border-white/[0.08]">
+              <CardContent className="p-4 text-sm text-gray-400">
+                <p className="font-medium text-gray-300">Fluxo do bezerro:</p>
                 <p className="mt-1.5">Na Fazenda → <strong>Vendido no Desmame</strong> ou <strong>Escalada</strong></p>
                 <p>Escalada → <strong>Frigorífico</strong> (bateu peso) ou <strong>IPÊ</strong> (não bateu)</p>
               </CardContent>
@@ -332,7 +332,7 @@ export default function Bezerros() {
             )}
             <div className="flex justify-end gap-3 pt-2">
               <Button type="button" variant="outline" onClick={() => setDestinoModal(null)}>Cancelar</Button>
-              <Button type="submit" className="bg-purple-600 hover:bg-purple-700">Confirmar Destino</Button>
+              <Button type="submit" className="bg-gradient-to-r from-purple-500 to-violet-600 shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30">Confirmar Destino</Button>
             </div>
           </form>
         </DialogContent>

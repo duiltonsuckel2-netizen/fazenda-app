@@ -85,7 +85,7 @@ export default function Alimentacao() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Alimentação</h1>
+          <h1 className="text-2xl font-bold text-white">Alimentação</h1>
           <p className="text-sm text-gray-500 mt-0.5">{registros.length} registros</p>
         </div>
         <Button onClick={openNew}>
@@ -100,7 +100,7 @@ export default function Alimentacao() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500 font-medium">Usando Sal</p>
-                <p className="text-2xl font-bold text-amber-600 mt-1">{resumo.qtdSal}</p>
+                <p className="text-2xl font-bold text-amber-400 mt-1">{resumo.qtdSal}</p>
               </div>
               <div className="text-3xl">🧂</div>
             </div>
@@ -111,7 +111,7 @@ export default function Alimentacao() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500 font-medium">Usando Ração</p>
-                <p className="text-2xl font-bold text-blue-600 mt-1">{resumo.qtdRacao}</p>
+                <p className="text-2xl font-bold text-blue-400 mt-1">{resumo.qtdRacao}</p>
               </div>
               <div className="text-3xl">🌾</div>
             </div>
@@ -122,7 +122,7 @@ export default function Alimentacao() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500 font-medium">Gasto Total com Sal</p>
-                <p className="text-2xl font-bold text-green-600 mt-1">R$ {resumo.totalSal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                <p className="text-2xl font-bold text-emerald-400 mt-1">R$ {resumo.totalSal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
               </div>
               <div className="text-3xl">💰</div>
             </div>
@@ -149,7 +149,7 @@ export default function Alimentacao() {
         <Card className="overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50/80 hover:bg-gray-50/80">
+              <TableRow className="bg-white/[0.02] hover:bg-white/[0.02]">
                 <TableHead>Bezerro</TableHead>
                 <TableHead>Tipo</TableHead>
                 <TableHead>Nome do Sal</TableHead>
@@ -163,15 +163,15 @@ export default function Alimentacao() {
             <TableBody>
               {filtered.map(r => (
                 <TableRow key={r.id}>
-                  <TableCell className="font-semibold text-gray-900">#{r.bezerro_numero}</TableCell>
+                  <TableCell className="font-semibold text-white">#{r.bezerro_numero}</TableCell>
                   <TableCell>
                     <Badge variant={r.tipo === 'sal' ? 'warning' : 'info'}>
                       {r.tipo === 'sal' ? '🧂 Sal' : '🌾 Ração'}
                     </Badge>
                   </TableCell>
-                  <TableCell>{r.sal_nome || <span className="text-gray-300">—</span>}</TableCell>
-                  <TableCell>{r.sal_marca || <span className="text-gray-300">—</span>}</TableCell>
-                  <TableCell className="tabular-nums font-medium">{r.sal_preco ? `R$ ${r.sal_preco.toFixed(2)}` : <span className="text-gray-300">—</span>}</TableCell>
+                  <TableCell>{r.sal_nome || <span className="text-gray-600">—</span>}</TableCell>
+                  <TableCell>{r.sal_marca || <span className="text-gray-600">—</span>}</TableCell>
+                  <TableCell className="tabular-nums font-medium">{r.sal_preco ? `R$ ${r.sal_preco.toFixed(2)}` : <span className="text-gray-600">—</span>}</TableCell>
                   <TableCell className="tabular-nums">{r.data_inicio}</TableCell>
                   <TableCell>
                     {r.data_fim ? (
@@ -226,28 +226,28 @@ export default function Alimentacao() {
               <Label>Tipo de Alimentação *</Label>
               <div className="flex gap-3">
                 <button type="button" onClick={() => setForm({ ...form, tipo: 'sal' })}
-                  className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border-2 transition-all duration-200 ${form.tipo === 'sal' ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm' : 'border-gray-200 hover:border-gray-300 text-gray-500'}`}>
+                  className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all duration-200 ${form.tipo === 'sal' ? 'border-amber-500/50 bg-amber-500/10 text-amber-400 shadow-sm shadow-amber-500/10' : 'border-white/10 hover:border-white/20 text-gray-500'}`}>
                   <span className="text-lg">🧂</span> <span className="font-medium">Sal</span>
                 </button>
                 <button type="button" onClick={() => setForm({ ...form, tipo: 'racao' })}
-                  className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border-2 transition-all duration-200 ${form.tipo === 'racao' ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-sm' : 'border-gray-200 hover:border-gray-300 text-gray-500'}`}>
+                  className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all duration-200 ${form.tipo === 'racao' ? 'border-blue-500/50 bg-blue-500/10 text-blue-400 shadow-sm shadow-blue-500/10' : 'border-white/10 hover:border-white/20 text-gray-500'}`}>
                   <span className="text-lg">🌾</span> <span className="font-medium">Ração</span>
                 </button>
               </div>
             </div>
             {form.tipo === 'sal' && (
-              <div className="space-y-3 bg-amber-50/70 rounded-xl p-4 border border-amber-200/60">
+              <div className="space-y-3 bg-amber-500/5 rounded-xl p-4 border border-amber-500/15">
                 <div className="space-y-2">
-                  <Label className="text-amber-800">Nome do Sal</Label>
-                  <Input value={form.sal_nome} onChange={e => setForm({ ...form, sal_nome: e.target.value })} placeholder="Ex: Sal Mineral Reprodução" className="border-amber-300 focus-visible:ring-amber-500/30 focus-visible:border-amber-500" />
+                  <Label className="text-amber-400">Nome do Sal</Label>
+                  <Input value={form.sal_nome} onChange={e => setForm({ ...form, sal_nome: e.target.value })} placeholder="Ex: Sal Mineral Reprodução" className="border-amber-500/20 focus-visible:ring-amber-500/30 focus-visible:border-amber-500/50" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-amber-800">Marca</Label>
-                  <Input value={form.sal_marca} onChange={e => setForm({ ...form, sal_marca: e.target.value })} placeholder="Ex: Matsuda, Tortuga, Guabi" className="border-amber-300 focus-visible:ring-amber-500/30 focus-visible:border-amber-500" />
+                  <Label className="text-amber-400">Marca</Label>
+                  <Input value={form.sal_marca} onChange={e => setForm({ ...form, sal_marca: e.target.value })} placeholder="Ex: Matsuda, Tortuga, Guabi" className="border-amber-500/20 focus-visible:ring-amber-500/30 focus-visible:border-amber-500/50" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-amber-800">Preço (R$)</Label>
-                  <Input type="number" step="0.01" value={form.sal_preco} onChange={e => setForm({ ...form, sal_preco: e.target.value })} placeholder="0.00" className="border-amber-300 focus-visible:ring-amber-500/30 focus-visible:border-amber-500" />
+                  <Label className="text-amber-400">Preço (R$)</Label>
+                  <Input type="number" step="0.01" value={form.sal_preco} onChange={e => setForm({ ...form, sal_preco: e.target.value })} placeholder="0.00" className="border-amber-500/20 focus-visible:ring-amber-500/30 focus-visible:border-amber-500/50" />
                 </div>
               </div>
             )}

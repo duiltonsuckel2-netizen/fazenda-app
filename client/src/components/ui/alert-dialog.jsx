@@ -9,7 +9,7 @@ const AlertDialogPortal = AlertDialogPrimitive.Portal
 
 const AlertDialogOverlay = forwardRef(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Overlay
-    className={cn('fixed inset-0 z-50 bg-black/50 backdrop-blur-sm', className)}
+    className={cn('fixed inset-0 z-50 bg-black/60 backdrop-blur-sm', className)}
     {...props}
     ref={ref}
   />
@@ -23,7 +23,7 @@ const AlertDialogContent = forwardRef(({ className, ...props }, ref) => (
       ref={ref}
       className={cn(
         'fixed left-1/2 top-1/2 z-50 grid w-full max-w-md -translate-x-1/2 -translate-y-1/2',
-        'gap-4 border border-gray-200 bg-white p-6 shadow-xl rounded-xl',
+        'gap-4 border border-white/10 bg-gray-900/95 backdrop-blur-xl p-6 shadow-2xl rounded-2xl',
         className
       )}
       {...props}
@@ -41,12 +41,12 @@ const AlertDialogFooter = ({ className, ...props }) => (
 )
 
 const AlertDialogTitle = forwardRef(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Title ref={ref} className={cn('text-lg font-semibold text-gray-900', className)} {...props} />
+  <AlertDialogPrimitive.Title ref={ref} className={cn('text-lg font-semibold text-white', className)} {...props} />
 ))
 AlertDialogTitle.displayName = 'AlertDialogTitle'
 
 const AlertDialogDescription = forwardRef(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Description ref={ref} className={cn('text-sm text-gray-500', className)} {...props} />
+  <AlertDialogPrimitive.Description ref={ref} className={cn('text-sm text-gray-400', className)} {...props} />
 ))
 AlertDialogDescription.displayName = 'AlertDialogDescription'
 
