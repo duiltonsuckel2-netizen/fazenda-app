@@ -1,0 +1,9 @@
+node_modules/
+fazenda.db
+fazenda.db-shm
+fazenda.db-wal
+client/node_modules/
+client/dist/
+*.ps1
+criar-atalho.ps1
+find-cf.ps1
