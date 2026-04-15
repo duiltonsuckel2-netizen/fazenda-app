@@ -48,6 +48,15 @@ export const api = {
     pesagens: (id) => request(`/bezerros/${id}/pesagens`),
   },
 
+  // Alimentação
+  alimentacao: {
+    list: (params) => request('/alimentacao' + (params ? `?${new URLSearchParams(params)}` : '')),
+    create: (data) => request('/alimentacao', { method: 'POST', body: data }),
+    update: (id, data) => request(`/alimentacao/${id}`, { method: 'PUT', body: data }),
+    delete: (id) => request(`/alimentacao/${id}`, { method: 'DELETE' }),
+    resumo: () => request('/alimentacao/resumo'),
+  },
+
   // Pesagens
   pesagens: {
     list: () => request('/pesagens'),

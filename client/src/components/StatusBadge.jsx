@@ -1,19 +1,21 @@
-const colors = {
-  ativa: 'bg-green-100 text-green-700',
-  descartada: 'bg-gray-100 text-gray-600',
-  morta: 'bg-red-100 text-red-600',
-  pendente: 'bg-yellow-100 text-yellow-700',
-  prenha: 'bg-green-100 text-green-700',
-  vazia: 'bg-red-100 text-red-600',
-  na_fazenda: 'bg-blue-100 text-blue-700',
-  vendido_desmame: 'bg-amber-100 text-amber-700',
-  escalada: 'bg-purple-100 text-purple-700',
-  frigorifico: 'bg-orange-100 text-orange-700',
-  ipe: 'bg-teal-100 text-teal-700',
-  IA: 'bg-blue-100 text-blue-700',
-  MN: 'bg-amber-100 text-amber-700',
-  M: 'bg-blue-100 text-blue-700',
-  F: 'bg-pink-100 text-pink-700',
+import { Badge } from './ui/badge'
+
+const variantMap = {
+  ativa: 'default',
+  descartada: 'secondary',
+  morta: 'destructive',
+  pendente: 'warning',
+  prenha: 'default',
+  vazia: 'destructive',
+  na_fazenda: 'info',
+  vendido_desmame: 'warning',
+  escalada: 'purple',
+  frigorifico: 'orange',
+  ipe: 'teal',
+  IA: 'info',
+  MN: 'warning',
+  M: 'info',
+  F: 'pink',
 }
 
 const labels = {
@@ -36,8 +38,8 @@ const labels = {
 
 export default function StatusBadge({ value }) {
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colors[value] || 'bg-gray-100 text-gray-600'}`}>
+    <Badge variant={variantMap[value] || 'secondary'}>
       {labels[value] || value}
-    </span>
+    </Badge>
   )
 }

@@ -17,6 +17,7 @@ app.use('/api/matrizes', require('./routes/matrizes'));
 app.use('/api/inseminacoes', require('./routes/inseminacoes'));
 app.use('/api/bezerros', require('./routes/bezerros'));
 app.use('/api/pesagens', require('./routes/pesagens'));
+app.use('/api/alimentacao', require('./routes/alimentacao'));
 
 // Fallback para SPA
 app.get('/{*path}', (req, res) => {

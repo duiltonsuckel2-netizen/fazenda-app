@@ -52,6 +52,20 @@ db.exec(`
     FOREIGN KEY (inseminacao_id) REFERENCES inseminacoes(id)
   );
 
+  CREATE TABLE IF NOT EXISTS alimentacao (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    bezerro_id INTEGER NOT NULL,
+    tipo TEXT NOT NULL CHECK(tipo IN ('sal','racao')),
+    sal_nome TEXT,
+    sal_marca TEXT,
+    sal_preco REAL,
+    data_inicio TEXT NOT NULL,
+    data_fim TEXT,
+    observacoes TEXT,
+    created_at TEXT DEFAULT (datetime('now','localtime')),
+    FOREIGN KEY (bezerro_id) REFERENCES bezerros(id)
+  );
+
   CREATE TABLE IF NOT EXISTS pesagens (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     bezerro_id INTEGER NOT NULL,

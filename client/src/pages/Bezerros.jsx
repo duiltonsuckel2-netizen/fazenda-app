@@ -1,9 +1,19 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api'
-import Modal from '../components/Modal'
 import StatusBadge from '../components/StatusBadge'
-import { Plus, Pencil, Trash2, Search, MapPin } from 'lucide-react'
-import toast from 'react-hot-toast'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Select } from '@/components/ui/select-native'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu'
+import { Plus, Search, MoreHorizontal, Pencil, Trash2, MapPin } from 'lucide-react'
+import { toast } from 'sonner'
 
 const emptyForm = { numero: '', matriz_id: '', data_nascimento: '', sexo: 'M', tipo_concepcao: 'IA', peso_nascimento: '', observacoes: '' }
 
@@ -18,6 +28,7 @@ export default function Bezerros() {
   const [editing, setEditing] = useState(null)
   const [form, setForm] = useState(emptyForm)
   const [destinoForm, setDestinoForm] = useState({ destino: '', data_destino: '', valor_venda: '', comprador: '' })
+  const [deleteTarget, setDeleteTarget] = useState(null)
 
   const load = () => Promise.all([
     api.bezerros.list(filterDestino ? { destino: filterDestino } : undefined).then(setBezerros),
@@ -77,11 +88,11 @@ export default function Bezerros() {
     }
   }
 
-  const remove = async (b) => {
-    if (!confirm(`Excluir bezerro #${b.numero}?`)) return
+  const confirmDelete = async () => {
     try {
-      await api.bezerros.delete(b.id)
+      await api.bezerros.delete(deleteTarget.id)
       toast.success('Bezerro excluído')
+      setDeleteTarget(null)
       load()
     } catch (err) {
       toast.error(err.message)
@@ -89,232 +100,256 @@ export default function Bezerros() {
   }
 
   return (
-    <div>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Bezerros</h1>
-        <button onClick={openNew} className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-          <Plus size={18} /> Novo Bezerro
-        </button>
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Bezerros</h1>
+          <p className="text-sm text-gray-500 mt-0.5">{bezerros.length} registros</p>
+        </div>
+        <Button onClick={openNew}>
+          <Plus size={16} /> Novo Bezerro
+        </Button>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+      <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input type="text" placeholder="Buscar por número ou mãe..." value={search} onChange={e => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Input placeholder="Buscar por número ou mãe..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
         </div>
-        <select value={filterDestino} onChange={e => setFilterDestino(e.target.value)}
-          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+        <Select value={filterDestino} onChange={e => setFilterDestino(e.target.value)} className="sm:w-48">
           <option value="">Todos os destinos</option>
           <option value="na_fazenda">Na Fazenda</option>
           <option value="vendido_desmame">Vendido (Desmame)</option>
           <option value="escalada">Escalada</option>
           <option value="frigorifico">Frigorífico</option>
           <option value="ipe">IPÊ</option>
-        </select>
+        </Select>
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600" /></div>
+        <Card><CardContent className="p-4 space-y-3">{[1,2,3,4,5].map(i => <Skeleton key={i} className="h-12 w-full" />)}</CardContent></Card>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-20 text-gray-400">
-          <p className="text-lg">Nenhum bezerro encontrado</p>
-        </div>
+        <Card>
+          <CardContent className="py-16 text-center">
+            <div className="text-4xl mb-3">🐂</div>
+            <p className="text-lg text-gray-500 font-medium">Nenhum bezerro encontrado</p>
+          </CardContent>
+        </Card>
       ) : (
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-gray-50 text-left text-gray-500">
-                  <th className="px-4 py-3 font-medium">Número</th>
-                  <th className="px-4 py-3 font-medium">Mãe</th>
-                  <th className="px-4 py-3 font-medium">Nascimento</th>
-                  <th className="px-4 py-3 font-medium">Sexo</th>
-                  <th className="px-4 py-3 font-medium">Concepção</th>
-                  <th className="px-4 py-3 font-medium">Peso Atual</th>
-                  <th className="px-4 py-3 font-medium">Destino</th>
-                  <th className="px-4 py-3 font-medium">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map(b => (
-                  <tr key={b.id} className="border-t border-gray-100 hover:bg-gray-50">
-                    <td className="px-4 py-3 font-medium text-gray-800">#{b.numero}</td>
-                    <td className="px-4 py-3 text-gray-600">#{b.matriz_numero} {b.matriz_nome && `(${b.matriz_nome})`}</td>
-                    <td className="px-4 py-3 text-gray-600">{b.data_nascimento}</td>
-                    <td className="px-4 py-3"><StatusBadge value={b.sexo} /></td>
-                    <td className="px-4 py-3"><StatusBadge value={b.tipo_concepcao} /></td>
-                    <td className="px-4 py-3 text-gray-600">{b.peso_atual ? `${b.peso_atual} kg` : '-'}</td>
-                    <td className="px-4 py-3"><StatusBadge value={b.destino} /></td>
-                    <td className="px-4 py-3">
-                      <div className="flex gap-2">
-                        <button onClick={() => openDestino(b)} title="Definir destino" className="text-purple-500 hover:text-purple-700"><MapPin size={16} /></button>
-                        <button onClick={() => openEdit(b)} className="text-blue-500 hover:text-blue-700"><Pencil size={16} /></button>
-                        <button onClick={() => remove(b)} className="text-red-400 hover:text-red-600"><Trash2 size={16} /></button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <Card className="overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-gray-50/80 hover:bg-gray-50/80">
+                <TableHead>Número</TableHead>
+                <TableHead>Mãe</TableHead>
+                <TableHead>Nascimento</TableHead>
+                <TableHead>Sexo</TableHead>
+                <TableHead>Concepção</TableHead>
+                <TableHead>Peso Atual</TableHead>
+                <TableHead>Destino</TableHead>
+                <TableHead className="w-12"></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filtered.map(b => (
+                <TableRow key={b.id}>
+                  <TableCell className="font-semibold text-gray-900">#{b.numero}</TableCell>
+                  <TableCell>#{b.matriz_numero} {b.matriz_nome && <span className="text-gray-400">({b.matriz_nome})</span>}</TableCell>
+                  <TableCell className="tabular-nums">{b.data_nascimento}</TableCell>
+                  <TableCell><StatusBadge value={b.sexo} /></TableCell>
+                  <TableCell><StatusBadge value={b.tipo_concepcao} /></TableCell>
+                  <TableCell className="tabular-nums font-medium">{b.peso_atual ? `${b.peso_atual} kg` : <span className="text-gray-300">—</span>}</TableCell>
+                  <TableCell><StatusBadge value={b.destino} /></TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <MoreHorizontal size={16} />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => openDestino(b)}>
+                          <MapPin size={14} /> Definir Destino
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(b)}>
+                          <Pencil size={14} /> Editar
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => setDeleteTarget(b)} className="text-red-600 focus:text-red-600 focus:bg-red-50">
+                          <Trash2 size={14} /> Excluir
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Card>
       )}
 
       {/* Modal cadastro/edição */}
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Editar Bezerro' : 'Novo Bezerro'}>
-        <form onSubmit={save} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Número / Brinco *</label>
-              <input required value={form.numero} onChange={e => setForm({ ...form, numero: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Mãe (Matriz) *</label>
-              <select required value={form.matriz_id} onChange={e => setForm({ ...form, matriz_id: Number(e.target.value) })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                <option value="">Selecione...</option>
-                {matrizes.map(m => (
-                  <option key={m.id} value={m.id}>#{m.numero} {m.nome ? `- ${m.nome}` : ''}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nascimento *</label>
-              <input type="date" required value={form.data_nascimento} onChange={e => setForm({ ...form, data_nascimento: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Sexo *</label>
-              <select value={form.sexo} onChange={e => setForm({ ...form, sexo: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                <option value="M">Macho</option>
-                <option value="F">Fêmea</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Concepção *</label>
-              <select value={form.tipo_concepcao} onChange={e => setForm({ ...form, tipo_concepcao: e.target.value })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                <option value="IA">Inseminação Artificial</option>
-                <option value="MN">Monta Natural</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Peso ao Nascer (kg)</label>
-            <input type="number" step="0.1" value={form.peso_nascimento} onChange={e => setForm({ ...form, peso_nascimento: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-          </div>
-          {editing && (
-            <>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Peso Desmame (kg)</label>
-                  <input type="number" step="0.1" value={form.peso_desmame} onChange={e => setForm({ ...form, peso_desmame: e.target.value })}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Peso Atual (kg)</label>
-                  <input type="number" step="0.1" value={form.peso_atual} onChange={e => setForm({ ...form, peso_atual: e.target.value })}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-                </div>
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{editing ? 'Editar Bezerro' : 'Novo Bezerro'}</DialogTitle>
+            <DialogDescription>{editing ? 'Atualize os dados do bezerro.' : 'Cadastre um novo bezerro.'}</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={save} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Número / Brinco *</Label>
+                <Input required value={form.numero} onChange={e => setForm({ ...form, numero: e.target.value })} />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Destino</label>
-                  <select value={form.destino} onChange={e => setForm({ ...form, destino: e.target.value })}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <option value="na_fazenda">Na Fazenda</option>
-                    <option value="vendido_desmame">Vendido (Desmame)</option>
-                    <option value="escalada">Escalada</option>
-                    <option value="frigorifico">Frigorífico</option>
-                    <option value="ipe">IPÊ</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Data Destino</label>
-                  <input type="date" value={form.data_destino} onChange={e => setForm({ ...form, data_destino: e.target.value })}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-                </div>
+              <div className="space-y-2">
+                <Label>Mãe (Matriz) *</Label>
+                <Select required value={form.matriz_id} onChange={e => setForm({ ...form, matriz_id: Number(e.target.value) })}>
+                  <option value="">Selecione...</option>
+                  {matrizes.map(m => (
+                    <option key={m.id} value={m.id}>#{m.numero} {m.nome ? `- ${m.nome}` : ''}</option>
+                  ))}
+                </Select>
               </div>
-              {(form.destino === 'vendido_desmame' || form.destino === 'frigorifico') && (
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label>Nascimento *</Label>
+                <Input type="date" required value={form.data_nascimento} onChange={e => setForm({ ...form, data_nascimento: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label>Sexo *</Label>
+                <Select value={form.sexo} onChange={e => setForm({ ...form, sexo: e.target.value })}>
+                  <option value="M">Macho</option>
+                  <option value="F">Fêmea</option>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Concepção *</Label>
+                <Select value={form.tipo_concepcao} onChange={e => setForm({ ...form, tipo_concepcao: e.target.value })}>
+                  <option value="IA">Inseminação Artificial</option>
+                  <option value="MN">Monta Natural</option>
+                </Select>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Peso ao Nascer (kg)</Label>
+              <Input type="number" step="0.1" value={form.peso_nascimento} onChange={e => setForm({ ...form, peso_nascimento: e.target.value })} />
+            </div>
+            {editing && (
+              <>
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Valor Venda (R$)</label>
-                    <input type="number" step="0.01" value={form.valor_venda} onChange={e => setForm({ ...form, valor_venda: e.target.value })}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+                  <div className="space-y-2">
+                    <Label>Peso Desmame (kg)</Label>
+                    <Input type="number" step="0.1" value={form.peso_desmame} onChange={e => setForm({ ...form, peso_desmame: e.target.value })} />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Comprador</label>
-                    <input value={form.comprador} onChange={e => setForm({ ...form, comprador: e.target.value })}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+                  <div className="space-y-2">
+                    <Label>Peso Atual (kg)</Label>
+                    <Input type="number" step="0.1" value={form.peso_atual} onChange={e => setForm({ ...form, peso_atual: e.target.value })} />
                   </div>
                 </div>
-              )}
-            </>
-          )}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Observações</label>
-            <textarea value={form.observacoes} onChange={e => setForm({ ...form, observacoes: e.target.value })} rows={2}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-          </div>
-          <div className="flex justify-end gap-3 pt-2">
-            <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800">Cancelar</button>
-            <button type="submit" className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium">
-              {editing ? 'Salvar' : 'Cadastrar'}
-            </button>
-          </div>
-        </form>
-      </Modal>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Destino</Label>
+                    <Select value={form.destino} onChange={e => setForm({ ...form, destino: e.target.value })}>
+                      <option value="na_fazenda">Na Fazenda</option>
+                      <option value="vendido_desmame">Vendido (Desmame)</option>
+                      <option value="escalada">Escalada</option>
+                      <option value="frigorifico">Frigorífico</option>
+                      <option value="ipe">IPÊ</option>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Data Destino</Label>
+                    <Input type="date" value={form.data_destino} onChange={e => setForm({ ...form, data_destino: e.target.value })} />
+                  </div>
+                </div>
+                {(form.destino === 'vendido_desmame' || form.destino === 'frigorifico') && (
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>Valor Venda (R$)</Label>
+                      <Input type="number" step="0.01" value={form.valor_venda} onChange={e => setForm({ ...form, valor_venda: e.target.value })} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Comprador</Label>
+                      <Input value={form.comprador} onChange={e => setForm({ ...form, comprador: e.target.value })} />
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+            <div className="space-y-2">
+              <Label>Observações</Label>
+              <Textarea value={form.observacoes} onChange={e => setForm({ ...form, observacoes: e.target.value })} rows={2} />
+            </div>
+            <div className="flex justify-end gap-3 pt-2">
+              <Button type="button" variant="outline" onClick={() => setModalOpen(false)}>Cancelar</Button>
+              <Button type="submit">{editing ? 'Salvar' : 'Cadastrar'}</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       {/* Modal destino rápido */}
-      <Modal open={!!destinoModal} onClose={() => setDestinoModal(null)} title={`Definir Destino - #${destinoModal?.numero}`}>
-        <form onSubmit={saveDestino} className="space-y-4">
-          <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
-            <p><strong>Fluxo do bezerro:</strong></p>
-            <p className="mt-2">Na Fazenda → <strong>Vendido no Desmame</strong> ou <strong>Escalada</strong></p>
-            <p>Escalada → <strong>Frigorífico</strong> (bateu peso) ou <strong>IPÊ</strong> (não bateu)</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Novo Destino *</label>
-            <select required value={destinoForm.destino} onChange={e => setDestinoForm({ ...destinoForm, destino: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-              <option value="">Selecione...</option>
-              <option value="vendido_desmame">Vendido no Desmame</option>
-              <option value="escalada">Enviado para Escalada</option>
-              <option value="frigorifico">Frigorífico (bateu peso)</option>
-              <option value="ipe">IPÊ (não bateu peso)</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Data</label>
-            <input type="date" value={destinoForm.data_destino} onChange={e => setDestinoForm({ ...destinoForm, data_destino: e.target.value })}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-          </div>
-          {(destinoForm.destino === 'vendido_desmame' || destinoForm.destino === 'frigorifico') && (
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Valor Venda (R$)</label>
-                <input type="number" step="0.01" value={destinoForm.valor_venda} onChange={e => setDestinoForm({ ...destinoForm, valor_venda: e.target.value })}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Comprador</label>
-                <input value={destinoForm.comprador} onChange={e => setDestinoForm({ ...destinoForm, comprador: e.target.value })}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-              </div>
+      <Dialog open={!!destinoModal} onOpenChange={(open) => !open && setDestinoModal(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Definir Destino — #{destinoModal?.numero}</DialogTitle>
+            <DialogDescription>Escolha o novo destino do bezerro.</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={saveDestino} className="space-y-4">
+            <Card className="bg-gray-50 border-gray-200">
+              <CardContent className="p-4 text-sm text-gray-600">
+                <p className="font-medium text-gray-700">Fluxo do bezerro:</p>
+                <p className="mt-1.5">Na Fazenda → <strong>Vendido no Desmame</strong> ou <strong>Escalada</strong></p>
+                <p>Escalada → <strong>Frigorífico</strong> (bateu peso) ou <strong>IPÊ</strong> (não bateu)</p>
+              </CardContent>
+            </Card>
+            <div className="space-y-2">
+              <Label>Novo Destino *</Label>
+              <Select required value={destinoForm.destino} onChange={e => setDestinoForm({ ...destinoForm, destino: e.target.value })}>
+                <option value="">Selecione...</option>
+                <option value="vendido_desmame">Vendido no Desmame</option>
+                <option value="escalada">Enviado para Escalada</option>
+                <option value="frigorifico">Frigorífico (bateu peso)</option>
+                <option value="ipe">IPÊ (não bateu peso)</option>
+              </Select>
             </div>
-          )}
-          <div className="flex justify-end gap-3 pt-2">
-            <button type="button" onClick={() => setDestinoModal(null)} className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800">Cancelar</button>
-            <button type="submit" className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium">Confirmar Destino</button>
-          </div>
-        </form>
-      </Modal>
+            <div className="space-y-2">
+              <Label>Data</Label>
+              <Input type="date" value={destinoForm.data_destino} onChange={e => setDestinoForm({ ...destinoForm, data_destino: e.target.value })} />
+            </div>
+            {(destinoForm.destino === 'vendido_desmame' || destinoForm.destino === 'frigorifico') && (
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Valor Venda (R$)</Label>
+                  <Input type="number" step="0.01" value={destinoForm.valor_venda} onChange={e => setDestinoForm({ ...destinoForm, valor_venda: e.target.value })} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Comprador</Label>
+                  <Input value={destinoForm.comprador} onChange={e => setDestinoForm({ ...destinoForm, comprador: e.target.value })} />
+                </div>
+              </div>
+            )}
+            <div className="flex justify-end gap-3 pt-2">
+              <Button type="button" variant="outline" onClick={() => setDestinoModal(null)}>Cancelar</Button>
+              <Button type="submit" className="bg-purple-600 hover:bg-purple-700">Confirmar Destino</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Excluir bezerro #{deleteTarget?.numero}?</AlertDialogTitle>
+            <AlertDialogDescription>Esta ação não pode ser desfeita.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>Excluir</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
