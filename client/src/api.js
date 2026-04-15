@@ -63,4 +63,51 @@ export const api = {
     create: (data) => request('/pesagens', { method: 'POST', body: data }),
     delete: (id) => request(`/pesagens/${id}`, { method: 'DELETE' }),
   },
+
+  // Touros
+  touros: {
+    list: (params) => request('/touros' + (params ? `?${new URLSearchParams(params)}` : '')),
+    get: (id) => request(`/touros/${id}`),
+    create: (data) => request('/touros', { method: 'POST', body: data }),
+    update: (id, data) => request(`/touros/${id}`, { method: 'PUT', body: data }),
+    delete: (id) => request(`/touros/${id}`, { method: 'DELETE' }),
+    bezerros: (id) => request(`/touros/${id}/bezerros`),
+  },
+
+  // Sanitário
+  sanitario: {
+    list: (params) => request('/sanitario' + (params ? `?${new URLSearchParams(params)}` : '')),
+    vencimentos: () => request('/sanitario/vencimentos'),
+    create: (data) => request('/sanitario', { method: 'POST', body: data }),
+    update: (id, data) => request(`/sanitario/${id}`, { method: 'PUT', body: data }),
+    delete: (id) => request(`/sanitario/${id}`, { method: 'DELETE' }),
+  },
+
+  // Piquetes
+  piquetes: {
+    list: () => request('/piquetes'),
+    get: (id) => request(`/piquetes/${id}`),
+    create: (data) => request('/piquetes', { method: 'POST', body: data }),
+    update: (id, data) => request(`/piquetes/${id}`, { method: 'PUT', body: data }),
+    delete: (id) => request(`/piquetes/${id}`, { method: 'DELETE' }),
+    alocacoes: (id) => request(`/piquetes/${id}/alocacoes`),
+    alocar: (id, data) => request(`/piquetes/${id}/alocacoes`, { method: 'POST', body: data }),
+    desalocar: (alocId, data) => request(`/piquetes/alocacoes/${alocId}/saida`, { method: 'PATCH', body: data }),
+    deleteAlocacao: (alocId) => request(`/piquetes/alocacoes/${alocId}`, { method: 'DELETE' }),
+  },
+
+  // Financeiro
+  financeiro: {
+    list: (params) => request('/financeiro' + (params ? `?${new URLSearchParams(params)}` : '')),
+    resumo: () => request('/financeiro/resumo'),
+    create: (data) => request('/financeiro', { method: 'POST', body: data }),
+    update: (id, data) => request(`/financeiro/${id}`, { method: 'PUT', body: data }),
+    delete: (id) => request(`/financeiro/${id}`, { method: 'DELETE' }),
+  },
+
+  // Relatórios
+  relatorios: {
+    geral: () => request('/relatorios'),
+    crescimento: (bezerroId) => request(`/relatorios/crescimento/${bezerroId}`),
+  },
 };

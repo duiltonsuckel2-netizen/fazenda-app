@@ -7,7 +7,18 @@ router.get('/', (req, res) => {
 
   // Matrizes
   stats.totalMatrizes = db.prepare(`SELECT COUNT(*) as c FROM matrizes WHERE status = 'ativa'`).get().c;
-  stats.matrizesPrenas = db.prepare(`SELECT COUNT(DISTINCT i.matriz_id) as c FROM inseminacoes i WHERE i.resultado = 'prenha'`).get().c;
+  stats.matrizesPrenas = db.prepare(`
+    SELECT COUNT(DISTINCT i.matriz_id) as c FROM inseminacoes i
+    WHERE i.resultado = 'prenha'
+    AND i.matriz_id NOT IN (
+      SELECT DISTINCT b.matriz_id FROM bezerros b
+      WHERE b.inseminacao_id = i.id
+    )
+    AND NOT EXISTS (
+      SELECT 1 FROM inseminacoes i2
+      WHERE i2.matriz_id = i.matriz_id AND i2.id > i.id
+    )
+  `).get().c;
 
   // Inseminações
   stats.totalInseminacoes = db.prepare('SELECT COUNT(*) as c FROM inseminacoes').get().c;
@@ -31,6 +42,15 @@ router.get('/', (req, res) => {
 
   // Valor total de vendas
   stats.valorTotalVendas = db.prepare('SELECT COALESCE(SUM(valor_venda), 0) as total FROM bezerros WHERE valor_venda IS NOT NULL').get().total;
+
+  // Peso médio por sexo ao sair
+  const pesoSaidaMachos = db.prepare(`SELECT ROUND(AVG(peso_atual),1) as v FROM bezerros WHERE sexo='M' AND destino != 'na_fazenda' AND peso_atual IS NOT NULL`).get().v;
+  const pesoSaidaFemeas = db.prepare(`SELECT ROUND(AVG(peso_atual),1) as v FROM bezerros WHERE sexo='F' AND destino != 'na_fazenda' AND peso_atual IS NOT NULL`).get().v;
+  stats.pesoSaidaMachos = pesoSaidaMachos;
+  stats.pesoSaidaFemeas = pesoSaidaFemeas;
+
+  // Touros ativos
+  stats.totalTouros = db.prepare("SELECT COUNT(*) as c FROM touros WHERE status = 'ativo'").get().c;
 
   // Últimos bezerros nascidos
   stats.ultimosNascimentos = db.prepare(`

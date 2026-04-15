@@ -1,5 +1,5 @@
 import { Routes, Route, NavLink, useLocation } from 'react-router-dom'
-import { Home, Beef, Syringe, Baby, Scale, Wheat, Menu, X, ChevronRight } from 'lucide-react'
+import { Home, Beef, Syringe, Baby, Scale, Wheat, Menu, X, ChevronRight, Shield, MapPinned, DollarSign, BarChart3, CircleDot } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import Dashboard from './pages/Dashboard'
@@ -8,23 +8,38 @@ import Inseminacoes from './pages/Inseminacoes'
 import Bezerros from './pages/Bezerros'
 import Pesagens from './pages/Pesagens'
 import Alimentacao from './pages/Alimentacao'
+import Touros from './pages/Touros'
+import Sanitario from './pages/Sanitario'
+import Piquetes from './pages/Piquetes'
+import Financeiro from './pages/Financeiro'
+import Relatorios from './pages/Relatorios'
 
 const navItems = [
   { to: '/', icon: Home, label: 'Dashboard' },
   { to: '/matrizes', icon: Beef, label: 'Matrizes' },
+  { to: '/touros', icon: CircleDot, label: 'Touros' },
   { to: '/inseminacoes', icon: Syringe, label: 'Inseminações' },
   { to: '/bezerros', icon: Baby, label: 'Bezerros' },
-  { to: '/alimentacao', icon: Wheat, label: 'Alimentação' },
   { to: '/pesagens', icon: Scale, label: 'Pesagens' },
+  { to: '/alimentacao', icon: Wheat, label: 'Alimentação' },
+  { to: '/sanitario', icon: Shield, label: 'Sanitário' },
+  { to: '/piquetes', icon: MapPinned, label: 'Piquetes' },
+  { to: '/financeiro', icon: DollarSign, label: 'Financeiro' },
+  { to: '/relatorios', icon: BarChart3, label: 'Relatórios' },
 ]
 
 const pageLabels = {
   '/': 'Dashboard',
   '/matrizes': 'Matrizes',
+  '/touros': 'Touros',
   '/inseminacoes': 'Inseminações',
   '/bezerros': 'Bezerros',
   '/alimentacao': 'Alimentação',
   '/pesagens': 'Pesagens',
+  '/sanitario': 'Sanitário',
+  '/piquetes': 'Piquetes',
+  '/financeiro': 'Financeiro',
+  '/relatorios': 'Relatórios',
 }
 
 export default function App() {
@@ -48,7 +63,7 @@ export default function App() {
               &#x1F404;
             </div>
             <div>
-              <h1 className="text-lg font-bold tracking-tight text-white">Fazenda</h1>
+              <h1 className="text-lg font-bold tracking-tight text-white">Cabloca</h1>
               <p className="text-emerald-400/80 text-xs font-medium">Controle de Rebanho</p>
             </div>
           </div>
@@ -57,7 +72,7 @@ export default function App() {
         <div className="mx-4 h-px bg-white/[0.06]" />
 
         {/* Nav */}
-        <nav className="mt-4 px-3 space-y-1">
+        <nav className="mt-4 px-3 space-y-1 overflow-y-auto max-h-[calc(100vh-160px)]">
           {navItems.map(({ to, icon: Icon, label }) => (
             <NavLink
               key={to}
@@ -73,7 +88,6 @@ export default function App() {
             >
               <Icon size={18} className="transition-colors" />
               <span>{label}</span>
-              {/* Active indicator */}
             </NavLink>
           ))}
         </nav>
@@ -81,7 +95,7 @@ export default function App() {
         {/* Footer */}
         <div className="absolute bottom-0 left-0 right-0 p-4">
           <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl px-3 py-2.5 text-center">
-            <p className="text-gray-600 text-xs">v1.0 — Fazenda App</p>
+            <p className="text-gray-600 text-xs">v2.0 — Cabloca</p>
           </div>
         </div>
       </aside>
@@ -107,7 +121,7 @@ export default function App() {
 
           {/* Breadcrumb */}
           <div className="hidden lg:flex items-center gap-1.5 text-sm">
-            <span className="text-gray-600">Fazenda</span>
+            <span className="text-gray-600">Cabloca</span>
             <ChevronRight size={14} className="text-gray-700" />
             <span className="font-medium text-white">{currentPage}</span>
           </div>
@@ -119,10 +133,15 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/matrizes" element={<Matrizes />} />
+            <Route path="/touros" element={<Touros />} />
             <Route path="/inseminacoes" element={<Inseminacoes />} />
             <Route path="/bezerros" element={<Bezerros />} />
             <Route path="/alimentacao" element={<Alimentacao />} />
             <Route path="/pesagens" element={<Pesagens />} />
+            <Route path="/sanitario" element={<Sanitario />} />
+            <Route path="/piquetes" element={<Piquetes />} />
+            <Route path="/financeiro" element={<Financeiro />} />
+            <Route path="/relatorios" element={<Relatorios />} />
           </Routes>
         </main>
       </div>

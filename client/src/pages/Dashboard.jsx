@@ -4,7 +4,7 @@ import StatusBadge from '../components/StatusBadge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Beef, Baby, Syringe, DollarSign, TrendingUp, MapPin } from 'lucide-react'
+import { Beef, Baby, Syringe, DollarSign, TrendingUp, MapPin, CircleDot, Scale } from 'lucide-react'
 
 function StatCard({ icon: Icon, label, value, gradient, glow, sub, delay }) {
   return (
@@ -67,9 +67,44 @@ export default function Dashboard() {
       {/* Cards principais */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard icon={Beef} label="Matrizes Ativas" value={stats.totalMatrizes} gradient="from-emerald-400 to-green-600" glow="shadow-emerald-500/25" sub={`${stats.matrizesPrenas} prenhas`} delay={1} />
-        <StatCard icon={Baby} label="Bezerros Total" value={stats.totalBezerros} gradient="from-blue-400 to-blue-600" glow="shadow-blue-500/25" sub={`${stats.bezerrosMachos}M / ${stats.bezerrosFemeas}F`} delay={2} />
-        <StatCard icon={TrendingUp} label="Taxa de Sucesso" value={`${stats.taxaSucesso}%`} gradient="from-amber-400 to-orange-500" glow="shadow-amber-500/25" sub={`${stats.totalInseminacoes} inseminações`} delay={3} />
-        <StatCard icon={DollarSign} label="Total Vendas" value={`R$ ${stats.valorTotalVendas.toLocaleString('pt-BR')}`} gradient="from-violet-400 to-purple-600" glow="shadow-violet-500/25" sub={`${stats.bezerrosVendidos} vendidos`} delay={4} />
+        <StatCard icon={CircleDot} label="Touros Ativos" value={stats.totalTouros || 0} gradient="from-purple-400 to-purple-600" glow="shadow-purple-500/25" delay={2} />
+        <StatCard icon={Baby} label="Bezerros Total" value={stats.totalBezerros} gradient="from-blue-400 to-blue-600" glow="shadow-blue-500/25" sub={`${stats.bezerrosMachos}M / ${stats.bezerrosFemeas}F`} delay={3} />
+        <StatCard icon={TrendingUp} label="Taxa de Sucesso" value={`${stats.taxaSucesso}%`} gradient="from-amber-400 to-orange-500" glow="shadow-amber-500/25" sub={`${stats.totalInseminacoes} inseminações`} delay={4} />
+      </div>
+
+      {/* Segunda fileira: Vendas + Peso médio saída */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <StatCard icon={DollarSign} label="Total Vendas" value={`R$ ${stats.valorTotalVendas.toLocaleString('pt-BR')}`} gradient="from-violet-400 to-purple-600" glow="shadow-violet-500/25" sub={`${stats.bezerrosVendidos + stats.bezerrosFrigorifico} vendidos`} delay={1} />
+        <Card className="animate-in animate-in-delay-2">
+          <CardContent className="p-5">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-400 to-cyan-600 shadow-lg shadow-blue-500/25">
+                <Scale size={22} className="text-white" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Peso Médio Saída (Machos)</p>
+                <p className="text-3xl font-bold text-blue-400 mt-0.5 tracking-tight">
+                  {stats.pesoSaidaMachos ? `${stats.pesoSaidaMachos} kg` : '—'}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="animate-in animate-in-delay-3">
+          <CardContent className="p-5">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-600 shadow-lg shadow-pink-500/25">
+                <Scale size={22} className="text-white" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Peso Médio Saída (Fêmeas)</p>
+                <p className="text-3xl font-bold text-pink-400 mt-0.5 tracking-tight">
+                  {stats.pesoSaidaFemeas ? `${stats.pesoSaidaFemeas} kg` : '—'}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Destinos + Pendentes */}

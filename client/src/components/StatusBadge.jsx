@@ -2,8 +2,11 @@ import { Badge } from './ui/badge'
 
 const variantMap = {
   ativa: 'default',
+  ativo: 'default',
   descartada: 'secondary',
+  descartado: 'secondary',
   morta: 'destructive',
+  morto: 'destructive',
   pendente: 'warning',
   prenha: 'default',
   vazia: 'destructive',
@@ -16,12 +19,30 @@ const variantMap = {
   MN: 'warning',
   M: 'info',
   F: 'pink',
+  // Sanitário
+  vacina: 'default',
+  vermifugo: 'purple',
+  tratamento: 'warning',
+  exame: 'info',
+  // Piquetes
+  em_descanso: 'warning',
+  em_reforma: 'orange',
+  // Financeiro
+  receita: 'default',
+  despesa: 'destructive',
+  // Animal tipos
+  matriz: 'pink',
+  bezerro: 'info',
+  touro: 'purple',
 }
 
 const labels = {
   ativa: 'Ativa',
+  ativo: 'Ativo',
   descartada: 'Descartada',
+  descartado: 'Descartado',
   morta: 'Morta',
+  morto: 'Morto',
   pendente: 'Pendente',
   prenha: 'Prenha',
   vazia: 'Vazia',
@@ -34,6 +55,21 @@ const labels = {
   MN: 'Monta Natural',
   M: 'Macho',
   F: 'Fêmea',
+  // Sanitário
+  vacina: 'Vacina',
+  vermifugo: 'Vermífugo',
+  tratamento: 'Tratamento',
+  exame: 'Exame',
+  // Piquetes
+  em_descanso: 'Em Descanso',
+  em_reforma: 'Em Reforma',
+  // Financeiro
+  receita: 'Receita',
+  despesa: 'Despesa',
+  // Animal tipos
+  matriz: 'Matriz',
+  bezerro: 'Bezerro',
+  touro: 'Touro',
 }
 
 export default function StatusBadge({ value }) {

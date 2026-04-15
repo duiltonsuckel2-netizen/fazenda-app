@@ -18,6 +18,11 @@ app.use('/api/inseminacoes', require('./routes/inseminacoes'));
 app.use('/api/bezerros', require('./routes/bezerros'));
 app.use('/api/pesagens', require('./routes/pesagens'));
 app.use('/api/alimentacao', require('./routes/alimentacao'));
+app.use('/api/touros', require('./routes/touros'));
+app.use('/api/sanitario', require('./routes/sanitario'));
+app.use('/api/piquetes', require('./routes/piquetes'));
+app.use('/api/financeiro', require('./routes/financeiro'));
+app.use('/api/relatorios', require('./routes/relatorios'));
 
 // Fallback para SPA
 app.get('/{*path}', (req, res) => {
