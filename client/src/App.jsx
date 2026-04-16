@@ -1,5 +1,5 @@
 import { Routes, Route, NavLink, useLocation } from 'react-router-dom'
-import { Home, Beef, Syringe, Baby, Scale, Wheat, Menu, X, ChevronRight, Shield, MapPinned, DollarSign, BarChart3, CircleDot } from 'lucide-react'
+import { Home, Beef, Syringe, Baby, Scale, Wheat, Menu, X, ChevronRight, Shield, MapPinned, DollarSign, BarChart3, CircleDot, Camera } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import Dashboard from './pages/Dashboard'
@@ -13,9 +13,11 @@ import Sanitario from './pages/Sanitario'
 import Piquetes from './pages/Piquetes'
 import Financeiro from './pages/Financeiro'
 import Relatorios from './pages/Relatorios'
+import ImportarCaderno from './pages/ImportarCaderno'
 
 const navItems = [
   { to: '/', icon: Home, label: 'Dashboard' },
+  { to: '/importar', icon: Camera, label: 'Importar Caderno' },
   { to: '/matrizes', icon: Beef, label: 'Matrizes' },
   { to: '/touros', icon: CircleDot, label: 'Touros' },
   { to: '/inseminacoes', icon: Syringe, label: 'Inseminações' },
@@ -30,6 +32,7 @@ const navItems = [
 
 const pageLabels = {
   '/': 'Dashboard',
+  '/importar': 'Importar do Caderno',
   '/matrizes': 'Matrizes',
   '/touros': 'Touros',
   '/inseminacoes': 'Inseminações',
@@ -53,7 +56,7 @@ export default function App() {
       <aside className={cn(
         'fixed inset-y-0 left-0 z-50 w-[260px] transform transition-all duration-300 ease-in-out',
         'lg:translate-x-0 lg:static lg:inset-auto',
-        'bg-[#13151b]/80 backdrop-blur-xl border-r border-white/[0.06]',
+        'bg-[#13151b]/80 backdrop-blur-xl border-r border-white/[0.06] sidebar-glow',
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       )}>
         {/* Logo */}
@@ -82,7 +85,7 @@ export default function App() {
               className={({ isActive }) => cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group',
                 isActive
-                  ? 'bg-emerald-500/15 text-emerald-400 shadow-sm border border-emerald-500/20'
+                  ? 'bg-emerald-500/15 text-emerald-400 shadow-sm shadow-emerald-500/5 border border-emerald-500/20 nav-active-indicator'
                   : 'text-gray-500 hover:bg-white/[0.05] hover:text-gray-300 border border-transparent'
               )}
             >
@@ -94,8 +97,9 @@ export default function App() {
 
         {/* Footer */}
         <div className="absolute bottom-0 left-0 right-0 p-4">
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl px-3 py-2.5 text-center">
-            <p className="text-gray-600 text-xs">v2.0 — Cabloca</p>
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl px-3 py-2.5 flex items-center justify-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/50 animate-pulse" />
+            <p className="text-gray-500 text-xs font-medium">v2.0 — Cabloca</p>
           </div>
         </div>
       </aside>
@@ -111,7 +115,7 @@ export default function App() {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="bg-[#13151b]/60 backdrop-blur-xl border-b border-white/[0.06] px-4 lg:px-6 py-3 flex items-center gap-3 sticky top-0 z-30">
+        <header className="bg-[#13151b]/60 backdrop-blur-xl border-b border-white/[0.06] px-4 lg:px-6 py-3 flex items-center gap-3 sticky top-0 z-30 header-glow">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="lg:hidden text-gray-500 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition-colors"
@@ -132,6 +136,7 @@ export default function App() {
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/importar" element={<ImportarCaderno />} />
             <Route path="/matrizes" element={<Matrizes />} />
             <Route path="/touros" element={<Touros />} />
             <Route path="/inseminacoes" element={<Inseminacoes />} />

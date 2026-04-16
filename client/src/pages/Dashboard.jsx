@@ -63,7 +63,7 @@ export default function Dashboard() {
   const totalDestinos = stats.bezerrosNaFazenda + stats.bezerrosVendidos + stats.bezerrosEscalada + stats.bezerrosFrigorifico + stats.bezerrosIpe
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-in">
       {/* Cards principais */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard icon={Beef} label="Matrizes Ativas" value={stats.totalMatrizes} gradient="from-emerald-400 to-green-600" glow="shadow-emerald-500/25" sub={`${stats.matrizesPrenas} prenhas`} delay={1} />

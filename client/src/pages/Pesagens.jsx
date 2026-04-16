@@ -60,7 +60,7 @@ export default function Pesagens() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Pesagens</h1>
+          <h1 className="text-2xl font-bold page-title">Pesagens</h1>
           <p className="text-sm text-gray-500 mt-0.5">{pesagens.length} registros</p>
         </div>
         <Button onClick={openNew}>
@@ -98,7 +98,7 @@ export default function Pesagens() {
                   <TableCell className="font-bold text-emerald-400 tabular-nums">{p.peso} kg</TableCell>
                   <TableCell className="text-gray-400 max-w-xs truncate">{p.observacoes || <span className="text-gray-600">—</span>}</TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400 hover:text-red-600 hover:bg-red-50" onClick={() => setDeleteTarget(p)}>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-500/15" onClick={() => setDeleteTarget(p)}>
                       <Trash2 size={15} />
                     </Button>
                   </TableCell>

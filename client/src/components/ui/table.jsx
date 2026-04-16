@@ -21,7 +21,7 @@ TableBody.displayName = 'TableBody'
 const TableRow = forwardRef(({ className, ...props }, ref) => (
   <tr
     ref={ref}
-    className={cn('border-b border-white/[0.04] transition-colors hover:bg-white/[0.03]', className)}
+    className={cn('border-b border-white/[0.04] transition-all duration-200 hover:bg-white/[0.04] hover:shadow-sm hover:shadow-white/[0.02]', className)}
     {...props}
   />
 ))
@@ -30,14 +30,14 @@ TableRow.displayName = 'TableRow'
 const TableHead = forwardRef(({ className, ...props }, ref) => (
   <th
     ref={ref}
-    className={cn('h-10 px-3 text-left align-middle font-medium text-gray-500 [&:has([role=checkbox])]:pr-0', className)}
+    className={cn('h-11 px-3 text-left align-middle font-semibold text-gray-400 text-xs uppercase tracking-wider [&:has([role=checkbox])]:pr-0', className)}
     {...props}
   />
 ))
 TableHead.displayName = 'TableHead'
 
 const TableCell = forwardRef(({ className, ...props }, ref) => (
-  <td ref={ref} className={cn('px-3 py-3 align-middle text-gray-300 [&:has([role=checkbox])]:pr-0', className)} {...props} />
+  <td ref={ref} className={cn('px-3 py-3.5 align-middle text-gray-300 [&:has([role=checkbox])]:pr-0', className)} {...props} />
 ))
 TableCell.displayName = 'TableCell'
 

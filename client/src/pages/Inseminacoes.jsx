@@ -87,7 +87,7 @@ export default function Inseminacoes() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Inseminações</h1>
+          <h1 className="text-2xl font-bold page-title">Inseminações</h1>
           <p className="text-sm text-gray-500 mt-0.5">{inseminacoes.length} registros</p>
         </div>
         <Button onClick={openNew}>
@@ -134,7 +134,7 @@ export default function Inseminacoes() {
                         <div className="flex gap-1">
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <Button variant="ghost" size="icon" className="h-7 w-7 text-green-600 hover:text-green-700 hover:bg-green-50" onClick={() => setResultado(ins, 'prenha')}>
+                              <Button variant="ghost" size="icon" className="h-7 w-7 text-green-400 hover:text-green-300 hover:bg-green-500/15" onClick={() => setResultado(ins, 'prenha')}>
                                 <CheckCircle size={15} />
                               </Button>
                             </TooltipTrigger>
@@ -142,7 +142,7 @@ export default function Inseminacoes() {
                           </Tooltip>
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <Button variant="ghost" size="icon" className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50" onClick={() => setResultado(ins, 'vazia')}>
+                              <Button variant="ghost" size="icon" className="h-7 w-7 text-red-400 hover:text-red-300 hover:bg-red-500/15" onClick={() => setResultado(ins, 'vazia')}>
                                 <XCircle size={15} />
                               </Button>
                             </TooltipTrigger>
@@ -164,7 +164,7 @@ export default function Inseminacoes() {
                           <Pencil size={14} /> Editar
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => setDeleteTarget(ins)} className="text-red-600 focus:text-red-600 focus:bg-red-50">
+                        <DropdownMenuItem onClick={() => setDeleteTarget(ins)} className="text-red-400 focus:text-red-300 focus:bg-red-500/15">
                           <Trash2 size={14} /> Excluir
                         </DropdownMenuItem>
                       </DropdownMenuContent>

@@ -12,7 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu'
-import { Plus, Search, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import { Plus, Search, MoreHorizontal, Pencil, Trash2, Droplets, Wheat as WheatIcon, DollarSign } from 'lucide-react'
 import { toast } from 'sonner'
 
 const emptyForm = { bezerro_id: '', tipo: 'sal', sal_nome: '', sal_marca: '', sal_preco: '', data_inicio: '', data_fim: '', observacoes: '' }
@@ -85,7 +85,7 @@ export default function Alimentacao() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Alimentação</h1>
+          <h1 className="text-2xl font-bold page-title">Alimentação</h1>
           <p className="text-sm text-gray-500 mt-0.5">{registros.length} registros</p>
         </div>
         <Button onClick={openNew}>
@@ -95,36 +95,44 @@ export default function Alimentacao() {
 
       {/* Resumo */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card>
+        <Card className="group hover:scale-[1.02] transition-all duration-300">
           <CardContent className="p-5">
-            <div className="flex items-center justify-between">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg shadow-amber-500/25">
+                <Droplets size={22} className="text-white" />
+              </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Usando Sal</p>
-                <p className="text-2xl font-bold text-amber-400 mt-1">{resumo.qtdSal}</p>
+                <p className="text-3xl font-bold text-white mt-0.5 tracking-tight">{resumo.qtdSal}</p>
+                <p className="text-xs text-gray-500 mt-1">bezerros ativos</p>
               </div>
-              <div className="text-3xl">🧂</div>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="group hover:scale-[1.02] transition-all duration-300">
           <CardContent className="p-5">
-            <div className="flex items-center justify-between">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 shadow-lg shadow-blue-500/25">
+                <WheatIcon size={22} className="text-white" />
+              </div>
               <div>
                 <p className="text-sm text-gray-500 font-medium">Usando Ração</p>
-                <p className="text-2xl font-bold text-blue-400 mt-1">{resumo.qtdRacao}</p>
+                <p className="text-3xl font-bold text-white mt-0.5 tracking-tight">{resumo.qtdRacao}</p>
+                <p className="text-xs text-gray-500 mt-1">bezerros ativos</p>
               </div>
-              <div className="text-3xl">🌾</div>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="group hover:scale-[1.02] transition-all duration-300">
           <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500 font-medium">Gasto Total com Sal</p>
-                <p className="text-2xl font-bold text-emerald-400 mt-1">R$ {resumo.totalSal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-600 shadow-lg shadow-emerald-500/25">
+                <DollarSign size={22} className="text-white" />
               </div>
-              <div className="text-3xl">💰</div>
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Gasto com Sal</p>
+                <p className="text-3xl font-bold text-white mt-0.5 tracking-tight">R$ {resumo.totalSal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -192,7 +200,7 @@ export default function Alimentacao() {
                           <Pencil size={14} /> Editar
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => setDeleteTarget(r)} className="text-red-600 focus:text-red-600 focus:bg-red-50">
+                        <DropdownMenuItem onClick={() => setDeleteTarget(r)} className="text-red-400 focus:text-red-300 focus:bg-red-500/15">
                           <Trash2 size={14} /> Excluir
                         </DropdownMenuItem>
                       </DropdownMenuContent>

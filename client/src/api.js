@@ -110,4 +110,19 @@ export const api = {
     geral: () => request('/relatorios'),
     crescimento: (bezerroId) => request(`/relatorios/crescimento/${bezerroId}`),
   },
+
+  // OCR (importação do caderno)
+  ocr: {
+    extract: async (files) => {
+      const fd = new FormData();
+      for (const f of files) fd.append('fotos', f);
+      const res = await fetch(`${BASE}/ocr/extract`, { method: 'POST', body: fd });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Erro' }));
+        throw new Error(err.error || `HTTP ${res.status}`);
+      }
+      return res.json();
+    },
+    commit: (eventos) => request('/ocr/commit', { method: 'POST', body: { eventos } }),
+  },
 };

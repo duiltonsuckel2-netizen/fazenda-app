@@ -7,3 +7,4 @@ client/dist/
 *.ps1
 criar-atalho.ps1
 find-cf.ps1
+uploads/

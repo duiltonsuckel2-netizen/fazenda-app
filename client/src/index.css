@@ -41,10 +41,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dot pattern background */
+/* Dot pattern background with gradient mesh */
 .bg-dots {
-  background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 10% 90%, rgba(16, 185, 129, 0.04), transparent),
+    radial-gradient(ellipse 60% 50% at 90% 10%, rgba(59, 130, 246, 0.03), transparent),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(168, 85, 247, 0.02), transparent),
+    radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px;
 }
 
 /* Glassmorphism card */
@@ -111,6 +115,10 @@ body {
 .animate-in-delay-2 { animation-delay: 0.1s; }
 .animate-in-delay-3 { animation-delay: 0.15s; }
 .animate-in-delay-4 { animation-delay: 0.2s; }
+.animate-in-delay-5 { animation-delay: 0.25s; }
+.animate-in-delay-6 { animation-delay: 0.3s; }
+.animate-in-delay-7 { animation-delay: 0.35s; }
+.animate-in-delay-8 { animation-delay: 0.4s; }
 
 [data-state="open"][class*="DialogOverlay"],
 [data-state="open"][class*="AlertDialogOverlay"] {
@@ -161,4 +169,80 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Page title gradient */
+.page-title {
+  background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Active nav indicator */
+.nav-active-indicator {
+  position: relative;
+}
+.nav-active-indicator::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(180deg, #34d399, #10b981);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+/* Sidebar gradient line */
+.sidebar-glow {
+  position: relative;
+}
+.sidebar-glow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(16, 185, 129, 0.2) 20%,
+    rgba(16, 185, 129, 0.1) 50%,
+    rgba(59, 130, 246, 0.1) 80%,
+    transparent 100%
+  );
+}
+
+/* Table row stripe */
+tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+/* Header glow line */
+.header-glow {
+  position: relative;
+}
+.header-glow::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(16, 185, 129, 0.15) 30%,
+    rgba(59, 130, 246, 0.1) 70%,
+    transparent 100%
+  );
+}
+
+/* Focus glow ring for interactive elements */
+.focus-glow:focus-visible {
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2), 0 0 12px rgba(16, 185, 129, 0.1);
 }

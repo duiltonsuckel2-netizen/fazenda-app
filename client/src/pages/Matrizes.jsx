@@ -69,7 +69,7 @@ export default function Matrizes() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Matrizes (Vacas)</h1>
+          <h1 className="text-2xl font-bold page-title">Matrizes (Vacas)</h1>
           <p className="text-sm text-gray-500 mt-0.5">{matrizes.length} registros</p>
         </div>
         <Button onClick={openNew}>
@@ -136,7 +136,7 @@ export default function Matrizes() {
                           <Pencil size={14} /> Editar
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => setDeleteTarget(m)} className="text-red-600 focus:text-red-600 focus:bg-red-50">
+                        <DropdownMenuItem onClick={() => setDeleteTarget(m)} className="text-red-400 focus:text-red-300 focus:bg-red-500/15">
                           <Trash2 size={14} /> Excluir
                         </DropdownMenuItem>
                       </DropdownMenuContent>

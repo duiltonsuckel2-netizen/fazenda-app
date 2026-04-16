@@ -126,7 +126,7 @@ export default function Piquetes() {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Piquetes</h1>
+          <h1 className="text-2xl font-bold page-title">Piquetes</h1>
           <p className="text-sm text-gray-500 mt-0.5">{piquetes.length} piquetes</p>
         </div>
         <Button onClick={openNew}><Plus size={16} /> Novo Piquete</Button>
@@ -144,7 +144,7 @@ export default function Piquetes() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {piquetes.map(p => (
-            <Card key={p.id} className="hover:border-white/10 transition-colors">
+            <Card key={p.id} className="hover:border-white/10 hover:scale-[1.02] transition-all duration-300">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-white text-lg">{p.nome}</CardTitle>
@@ -160,7 +160,7 @@ export default function Piquetes() {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => openEdit(p)}><Pencil size={14} /> Editar</DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => setDeleteTarget(p)} className="text-red-600 focus:text-red-600 focus:bg-red-50"><Trash2 size={14} /> Excluir</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setDeleteTarget(p)} className="text-red-400 focus:text-red-300 focus:bg-red-500/15"><Trash2 size={14} /> Excluir</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>

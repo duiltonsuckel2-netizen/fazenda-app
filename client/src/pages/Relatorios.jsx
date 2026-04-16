@@ -16,7 +16,7 @@ function KpiCard({ icon: Icon, label, value, sub, gradient, glow }) {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm text-gray-500 font-medium">{label}</p>
-            <p className="text-2xl font-bold text-white mt-0.5 tracking-tight">{value}</p>
+            <p className="text-2xl font-bold page-title mt-0.5 tracking-tight">{value}</p>
             {sub && <p className="text-xs text-gray-500 mt-1">{sub}</p>}
           </div>
         </div>
@@ -100,7 +100,7 @@ export default function Relatorios() {
 
   if (loading) return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-white">Relatórios e KPIs</h1>
+      <h1 className="text-2xl font-bold page-title">Relatórios e KPIs</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[1,2,3,4,5,6,7,8].map(i => <Card key={i}><CardContent className="p-5"><Skeleton className="h-16 w-full" /></CardContent></Card>)}
       </div>
@@ -115,7 +115,7 @@ export default function Relatorios() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-white">Relatórios e KPIs</h1>
+      <h1 className="text-2xl font-bold page-title">Relatórios e KPIs</h1>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
